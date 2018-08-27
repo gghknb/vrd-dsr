@@ -78,7 +78,7 @@ def load_pretrained_RO_npy(faster_rcnn_model, fname):
         frcnn_dict[key].copy_(param)
 
 def load_pretrained_npy(faster_rcnn_model, fname):
-    params = np.load(fname).item()
+    params = np.load(fname,encoding="latin1").item()
     # vgg16
     vgg16_dict = faster_rcnn_model.state_dict()
     for name, val in vgg16_dict.items():
@@ -108,7 +108,7 @@ def load_pretrained_npy(faster_rcnn_model, fname):
         frcnn_dict[key].copy_(param)
 
 def pretrain_with_det(net, det_model_path):
-    det_model = torch.load(det_model_path)    
+    det_model = torch.load(det_model_path)
     for k in det_model.keys():
         if('rpn' in k or 'bbox' in k):
             del det_model[k]
@@ -116,7 +116,7 @@ def pretrain_with_det(net, det_model_path):
     target_keys = []
     for k in net.state_dict().keys():
         if('conv' in k):
-            target_keys.append(k)    
+            target_keys.append(k)
 
     for ix, k in enumerate(det_model.keys()):
         if('features' in k):
